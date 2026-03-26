@@ -1,8 +1,13 @@
+import os
+from pathlib import Path
+
+import mysql.connector
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import mysql.connector
 from mysql.connector import Error
-import env
+
+load_dotenv(Path(__file__).with_name(".env"))
 
 app = FastAPI()
 
@@ -19,8 +24,8 @@ app.add_middleware(
 db_config = {
     "host": "localhost",       # "Abhis-comp" is your local machine name
     "port": 3308,              # CRITICAL: Your MySQL is on 3308, not 3306!
-    "user": env.SQL_USER,            # Standard default user
-    "password": env.SQL_PASSWORD,# Use your actual password here
+    "user": os.getenv("SQL_USER"),            # Standard default user
+    "password": os.getenv("SQL_PASSWORD"),# Use your actual password here
     "database": "marketplacedb" # This is the schema name from your previous screenshot
 }
 
