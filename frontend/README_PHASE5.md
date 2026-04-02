@@ -13,13 +13,13 @@ The React app now includes a small `listing` management screen for:
 2. Install dependencies:
 
 ```powershell
-npm install
+npm.cmd install
 ```
 
 3. Start Vite:
 
 ```powershell
-npm run dev
+npm.cmd run dev
 ```
 
-The frontend expects the FastAPI backend to be running and connected to a local MySQL instance.
+The frontend expects the FastAPI backend to be running and connected to a local MySQL instance. On Windows PowerShell, `npm.cmd` is safer than `npm` if script execution is restricted.

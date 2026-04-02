@@ -25,10 +25,12 @@ pip install -r backend/requirements.txt
 python backend/run_migration.py
 ```
 
+If you prefer to run the SQL files manually in MySQL Workbench, replace `{{DB_NAME}}` with your database name before executing the scripts.
+
 5. Start the backend:
 
 ```powershell
-uvicorn backend.main:app --reload
+python -m uvicorn backend.main:app --reload
 ```
 
 ## Important limitation
@@ -39,6 +41,8 @@ uvicorn backend.main:app --reload
 - `backend/migrations/001_phase5_seed.sql` resets and repopulates those tables with demo data.
 
 That means a teammate can now recreate the local Phase 5 database from scratch with one command, as long as the MySQL server is running and the credentials in `backend/.env` are valid.
+
+This setup was locally verified with a real MySQL instance by creating the schema, seeding the data, and testing `listing` insert, update, and delete through the running frontend and backend.
 
 ## Phase 5 demo notes
 
