@@ -18,8 +18,8 @@ This backend now includes a minimal FastAPI CRUD scaffold for the `listing` tabl
 pip install -r backend/requirements.txt
 ```
 
-3. Make sure a local MySQL schema named `marketplacedb` already exists with the Hokie Market tables.
-4. Seed/reset the existing tables:
+3. Make sure your local MySQL server is running and reachable with the credentials in `backend/.env`.
+4. Build the schema and seed/reset the tables:
 
 ```powershell
 python backend/run_migration.py
@@ -33,9 +33,12 @@ uvicorn backend.main:app --reload
 
 ## Important limitation
 
-`backend/migrations/001_phase5_seed.sql` is a seed/reset script, not a full schema creation script. It truncates and inserts data into existing tables, but it does not contain `CREATE TABLE` statements.
+`backend/run_migration.py` now applies the SQL files in `backend/migrations` in filename order.
 
-That means a teammate can quickly repopulate an existing local Hokie Market schema from the migration file, but cannot recreate the full database from nothing using this file alone unless they also have the schema-definition SQL from an earlier phase.
+- `backend/migrations/000_phase5_schema.sql` creates the database objects from scratch.
+- `backend/migrations/001_phase5_seed.sql` resets and repopulates those tables with demo data.
+
+That means a teammate can now recreate the local Phase 5 database from scratch with one command, as long as the MySQL server is running and the credentials in `backend/.env` are valid.
 
 ## Phase 5 demo notes
 

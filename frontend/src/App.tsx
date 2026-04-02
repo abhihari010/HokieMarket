@@ -106,11 +106,13 @@ function App() {
     setPageError("");
 
     try {
-      const [dbResponse, listingsResponse, optionsResponse] = await Promise.all([
-        api.get<DbResponse>("/api/test-db"),
-        api.get<Listing[]>("/api/listings"),
-        api.get<ListingFormOptions>("/api/listing-form-options"),
-      ]);
+      const [dbResponse, listingsResponse, optionsResponse] = await Promise.all(
+        [
+          api.get<DbResponse>("/api/test-db"),
+          api.get<Listing[]>("/api/listings"),
+          api.get<ListingFormOptions>("/api/listing-form-options"),
+        ],
+      );
 
       setDbInfo(dbResponse.data);
       setListings(listingsResponse.data);
@@ -135,10 +137,7 @@ function App() {
     void loadPageData();
   }, []);
 
-  const handleFieldChange = (
-    field: keyof ListingFormState,
-    value: string,
-  ) => {
+  const handleFieldChange = (field: keyof ListingFormState, value: string) => {
     setFormState((current) => ({
       ...current,
       [field]: value,
@@ -254,18 +253,23 @@ function App() {
           <h1>Hokie Market Listing Manager</h1>
           <p className="hero-copy">
             This screen is scoped to one realistic CRUD flow for the{" "}
-            <code>listing</code> table using the FastAPI backend and local MySQL.
+            <code>listing</code> table using the FastAPI backend and local
+            MySQL.
           </p>
         </div>
 
-        <div className={`status-card ${dbInfo?.status === "Success" ? "ok" : "error"}`}>
+        <div
+          className={`status-card ${dbInfo?.status === "Success" ? "ok" : "error"}`}
+        >
           <h2>Database Status</h2>
           <p>
             {dbInfo?.status === "Success"
               ? `Connected to ${dbInfo.database} on ${dbInfo.host}:${dbInfo.port}`
               : "Connection not verified from this machine"}
           </p>
-          {dbInfo?.detail ? <p className="status-detail">{dbInfo.detail}</p> : null}
+          {dbInfo?.detail ? (
+            <p className="status-detail">{dbInfo.detail}</p>
+          ) : null}
         </div>
       </header>
 
@@ -276,10 +280,18 @@ function App() {
               <p className="section-kicker">
                 {editingListingId === null ? "Insert Flow" : "Update Flow"}
               </p>
-              <h2>{editingListingId === null ? "Create Listing" : `Edit Listing #${editingListingId}`}</h2>
+              <h2>
+                {editingListingId === null
+                  ? "Create Listing"
+                  : `Edit Listing #${editingListingId}`}
+              </h2>
             </div>
             {editingListingId !== null ? (
-              <button className="ghost-button" type="button" onClick={resetForm}>
+              <button
+                className="ghost-button"
+                type="button"
+                onClick={resetForm}
+              >
                 Cancel Edit
               </button>
             ) : null}
@@ -291,7 +303,9 @@ function App() {
               <select
                 required
                 value={formState.sellerID}
-                onChange={(event) => handleFieldChange("sellerID", event.target.value)}
+                onChange={(event) =>
+                  handleFieldChange("sellerID", event.target.value)
+                }
               >
                 <option value="">Select a seller</option>
                 {formOptions.sellers.map((seller) => (
@@ -307,7 +321,9 @@ function App() {
               <select
                 required
                 value={formState.categoryID}
-                onChange={(event) => handleFieldChange("categoryID", event.target.value)}
+                onChange={(event) =>
+                  handleFieldChange("categoryID", event.target.value)
+                }
               >
                 <option value="">Select a category</option>
                 {formOptions.categories.map((category) => (
@@ -322,7 +338,9 @@ function App() {
               Course
               <select
                 value={formState.courseID}
-                onChange={(event) => handleFieldChange("courseID", event.target.value)}
+                onChange={(event) =>
+                  handleFieldChange("courseID", event.target.value)
+                }
               >
                 <option value="">No course association</option>
                 {formOptions.courses.map((course) => (
@@ -338,7 +356,9 @@ function App() {
               <input
                 required
                 value={formState.title}
-                onChange={(event) => handleFieldChange("title", event.target.value)}
+                onChange={(event) =>
+                  handleFieldChange("title", event.target.value)
+                }
               />
             </label>
 
@@ -348,7 +368,9 @@ function App() {
                 required
                 rows={4}
                 value={formState.description}
-                onChange={(event) => handleFieldChange("description", event.target.value)}
+                onChange={(event) =>
+                  handleFieldChange("description", event.target.value)
+                }
               />
             </label>
 
@@ -357,7 +379,9 @@ function App() {
               <input
                 required
                 value={formState.condition}
-                onChange={(event) => handleFieldChange("condition", event.target.value)}
+                onChange={(event) =>
+                  handleFieldChange("condition", event.target.value)
+                }
               />
             </label>
 
@@ -369,7 +393,9 @@ function App() {
                 step="0.01"
                 type="number"
                 value={formState.price}
-                onChange={(event) => handleFieldChange("price", event.target.value)}
+                onChange={(event) =>
+                  handleFieldChange("price", event.target.value)
+                }
               />
             </label>
 
@@ -382,12 +408,15 @@ function App() {
                     : "Update Listing"}
               </button>
               <p className="helper-text">
-                Auction row management is intentionally out of scope here. This form creates and edits standard listings only.
+                Auction row management is intentionally out of scope here. This
+                form creates and edits standard listings only.
               </p>
             </div>
           </form>
 
-          {actionMessage ? <p className="action-message">{actionMessage}</p> : null}
+          {actionMessage ? (
+            <p className="action-message">{actionMessage}</p>
+          ) : null}
           {pageError ? <p className="error-text">{pageError}</p> : null}
         </section>
 
@@ -397,13 +426,19 @@ function App() {
               <p className="section-kicker">Delete Flow</p>
               <h2>Existing Listings</h2>
             </div>
-            <button className="ghost-button" type="button" onClick={() => void loadPageData()}>
+            <button
+              className="ghost-button"
+              type="button"
+              onClick={() => void loadPageData()}
+            >
               Refresh
             </button>
           </div>
 
           <p className="helper-text">
-            Seeded listings may be protected by foreign-key references. For the cleanest delete demo, insert a new fixed-price listing and then delete that row.
+            Seeded listings may be protected by foreign-key references. For the
+            cleanest delete demo, insert a new fixed-price listing and then
+            delete that row.
           </p>
 
           {isBootstrapping ? (
@@ -431,7 +466,9 @@ function App() {
                       <td>{listing.listingID}</td>
                       <td>
                         <strong>{listing.title}</strong>
-                        <div className="table-subtext">{listing.description}</div>
+                        <div className="table-subtext">
+                          {listing.description}
+                        </div>
                       </td>
                       <td>{listing.sellerName}</td>
                       <td>{listing.categoryName}</td>
@@ -439,7 +476,10 @@ function App() {
                       <td>{listing.listingCondition}</td>
                       <td>${listing.price.toFixed(2)}</td>
                       <td className="table-actions">
-                        <button type="button" onClick={() => beginEdit(listing)}>
+                        <button
+                          type="button"
+                          onClick={() => beginEdit(listing)}
+                        >
                           Edit
                         </button>
                         <button
