@@ -7,8 +7,8 @@ from dotenv import dotenv_values
 def main() -> None:
     backend_dir = Path(__file__).resolve().parent
     env_values = dotenv_values(backend_dir / ".env")
-    db_name = env_values.get("DB_NAME", "marketplacedb")
-    migration_paths = sorted((backend_dir / "migrations").glob("*.sql"))
+    sql_path = backend_dir / "migrations" / "001_phase5_seed.sql"
+    sql_text = sql_path.read_text(encoding="utf-8")
 
     missing_keys = [key for key in ("SQL_USER", "SQL_PASSWORD") if not env_values.get(key)]
     if missing_keys:
@@ -22,19 +22,17 @@ def main() -> None:
         port=int(env_values.get("DB_PORT", 3308)),
         user=env_values["SQL_USER"],
         password=env_values["SQL_PASSWORD"],
+        database=env_values.get("DB_NAME", "marketplacedb"),
     )
 
     try:
         with connection.cursor() as cursor:
-            for sql_path in migration_paths:
-                sql_text = sql_path.read_text(encoding="utf-8").replace("{{DB_NAME}}", db_name)
-                statements = [statement.strip() for statement in sql_text.split(";") if statement.strip()]
-                for statement in statements:
-                    cursor.execute(statement)
+            statements = [statement.strip() for statement in sql_text.split(";") if statement.strip()]
+            for statement in statements:
+                cursor.execute(statement)
         connection.commit()
-        applied_names = ", ".join(path.name for path in migration_paths)
-        print(f"Applied migrations: {applied_names}")
-        print(f"Database is ready in schema: {db_name}")
+        print(f"Applied migration data: {sql_path.name}")
+        print("Note: this file seeds existing tables. It does not create the schema from scratch.")
     finally:
         connection.close()
 

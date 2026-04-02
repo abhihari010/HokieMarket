@@ -1,4 +1,4 @@
-USE `{{DB_NAME}}`;
+USE marketplacedb;
 
 SET FOREIGN_KEY_CHECKS = 0;
 
