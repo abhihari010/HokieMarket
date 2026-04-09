@@ -21,7 +21,7 @@ def main() -> None:
 
     connection = mysql.connector.connect(
         host=env_values.get("DB_HOST", "localhost"),
-        port=int(env_values.get("DB_PORT", 3308)),
+        port=int(env_values.get("DB_PORT", 3306)),
         user=env_values["SQL_USER"],
         password=env_values["SQL_PASSWORD"],
     )
