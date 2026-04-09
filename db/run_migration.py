@@ -5,10 +5,12 @@ from dotenv import dotenv_values
 
 
 def main() -> None:
-    backend_dir = Path(__file__).resolve().parent
+    db_dir = Path(__file__).resolve().parent
+    repo_root = db_dir.parent
+    backend_dir = repo_root / "backend"
     env_values = dotenv_values(backend_dir / ".env")
     db_name = env_values.get("DB_NAME", "marketplacedb")
-    migration_paths = sorted((backend_dir / "migrations").glob("*.sql"))
+    migration_paths = sorted(db_dir.glob("*.sql"))
 
     missing_keys = [key for key in ("SQL_USER", "SQL_PASSWORD") if not env_values.get(key)]
     if missing_keys:
