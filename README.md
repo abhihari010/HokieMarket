@@ -31,14 +31,52 @@ hokiemarket/
 
 ## Backend API Scope
 
-The current backend includes CRUD endpoints for the `listing` table:
+The Phase 6 backend now supports authenticated marketplace workflows across users, listings, auctions, transactions, messaging, reviews, reports, and analytics.
+
+### Authentication and Users
+
+- `POST /api/auth/signup`
+- `POST /api/auth/login`
+- `POST /api/auth/logout`
+- `POST /api/auth/change-password`
+- `GET /api/me`
+- `POST /api/admin/users`
+
+### Listings
 
 - `GET /api/test-db`
 - `GET /api/listing-form-options`
 - `GET /api/listings`
+- `GET /api/listings/{listing_id}`
 - `POST /api/listings`
 - `PUT /api/listings/{listing_id}`
 - `DELETE /api/listings/{listing_id}`
+
+### Auctions and Transactions
+
+- `POST /api/auctions/{auction_id}/bids`
+- `GET /api/auctions/{auction_id}/bids`
+- `POST /api/auctions/{auction_id}/close`
+- `POST /api/transactions`
+- `GET /api/my-transactions`
+- `PUT /api/transactions/{transaction_id}/status`
+
+### Messaging, Reviews, and Reports
+
+- `POST /api/conversations`
+- `GET /api/conversations`
+- `GET /api/conversations/{conversation_id}/messages`
+- `POST /api/conversations/{conversation_id}/messages`
+- `POST /api/reviews`
+- `GET /api/listings/{listing_id}/reviews`
+- `POST /api/reports`
+- `GET /api/admin/reports`
+- `PUT /api/admin/reports/{report_id}`
+
+### Analytics
+
+- `GET /api/analytics/top-categories`
+- `GET /api/analytics/seller-performance`
 
 ## Local Setup
 
@@ -63,6 +101,8 @@ python db/run_migration.py
 ```powershell
 uvicorn backend.main:app --reload
 ```
+
+Seeded accounts use the shared demo password `HokieMarket123!`.
 
 ### 2. Frontend
 
@@ -91,6 +131,7 @@ The frontend expects the FastAPI backend to already be running.
 
 ## Current Limitations
 
-- The CRUD scaffold is centered on standard `listing` rows.
-- Creating or updating auction listings is intentionally not implemented because it would also require coordinated writes to the `auction` table.
-- Deleting seeded listings may fail if related rows exist in tables like `listingimage`, `conversation`, `auction`, or `transaction`. For demos, the safest flow is to create a new fixed-price listing first, then delete that new row.
+- The frontend still needs to be updated to use token-based authentication and the newer Phase 6 endpoints.
+- Auction closing is implemented manually through the API and is not yet driven by a scheduled background job.
+- Some advanced marketplace behaviors, such as re-opening auction outcomes after a cancelled winning transaction, are intentionally simplified for the course project.
+- Deleting seeded listings may still fail if related rows exist in tables like `conversation`, `bid`, `transaction`, `report`, or `review`.

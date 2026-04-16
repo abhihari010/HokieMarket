@@ -9,6 +9,7 @@ TRUNCATE TABLE `review`;
 TRUNCATE TABLE `transaction`;
 TRUNCATE TABLE `auction`;
 TRUNCATE TABLE `conversation`;
+TRUNCATE TABLE `usersession`;
 TRUNCATE TABLE `listingimage`;
 TRUNCATE TABLE `listing`;
 TRUNCATE TABLE `course`;
@@ -107,49 +108,49 @@ INSERT INTO `category` (`categoryID`, `categoryName`) VALUES
 (19, 'Art Supplies'),
 (20, 'Miscellaneous');
 
-INSERT INTO `user` (`userID`, `email`, `name`, `phoneNo`, `role`, `createdAt`) VALUES
-(1, 'alex.carter@vt.edu', 'Alex Carter', '540-101-2001', 'seller', '2026-03-01 09:00:00'),
-(2, 'maya.patel@vt.edu', 'Maya Patel', '540-101-2002', 'seller', '2026-03-01 09:05:00'),
-(3, 'jordan.lee@vt.edu', 'Jordan Lee', '540-101-2003', 'seller', '2026-03-01 09:10:00'),
-(4, 'sophia.nguyen@vt.edu', 'Sophia Nguyen', '540-101-2004', 'seller', '2026-03-01 09:15:00'),
-(5, 'ethan.brooks@vt.edu', 'Ethan Brooks', '540-101-2005', 'seller', '2026-03-01 09:20:00'),
-(6, 'olivia.turner@vt.edu', 'Olivia Turner', '540-101-2006', 'seller', '2026-03-01 09:25:00'),
-(7, 'liam.hall@vt.edu', 'Liam Hall', '540-101-2007', 'seller', '2026-03-01 09:30:00'),
-(8, 'ava.king@vt.edu', 'Ava King', '540-101-2008', 'seller', '2026-03-01 09:35:00'),
-(9, 'noah.rivera@vt.edu', 'Noah Rivera', '540-101-2009', 'seller', '2026-03-01 09:40:00'),
-(10, 'emma.ward@vt.edu', 'Emma Ward', '540-101-2010', 'seller', '2026-03-01 09:45:00'),
-(11, 'william.foster@vt.edu', 'William Foster', '540-101-2011', 'seller', '2026-03-01 09:50:00'),
-(12, 'grace.hughes@vt.edu', 'Grace Hughes', '540-101-2012', 'seller', '2026-03-01 09:55:00'),
-(13, 'daniel.price@vt.edu', 'Daniel Price', '540-101-2013', 'buyer', '2026-03-01 10:00:00'),
-(14, 'chloe.bennett@vt.edu', 'Chloe Bennett', '540-101-2014', 'buyer', '2026-03-01 10:05:00'),
-(15, 'henry.coleman@vt.edu', 'Henry Coleman', '540-101-2015', 'buyer', '2026-03-01 10:10:00'),
-(16, 'ella.bailey@vt.edu', 'Ella Bailey', '540-101-2016', 'buyer', '2026-03-01 10:15:00'),
-(17, 'jack.morris@vt.edu', 'Jack Morris', '540-101-2017', 'buyer', '2026-03-01 10:20:00'),
-(18, 'nora.reed@vt.edu', 'Nora Reed', '540-101-2018', 'buyer', '2026-03-01 10:25:00'),
-(19, 'admin.one@vt.edu', 'Morgan Admin', '540-101-2019', 'admin', '2026-03-01 10:30:00'),
-(20, 'admin.two@vt.edu', 'Taylor Admin', '540-101-2020', 'admin', '2026-03-01 10:35:00');
+INSERT INTO `user` (`userID`, `email`, `name`, `phoneNo`, `passwordHash`, `role`, `createdAt`) VALUES
+(1, 'alex.carter@vt.edu', 'Alex Carter', '540-101-2001', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'seller', '2026-03-01 09:00:00'),
+(2, 'maya.patel@vt.edu', 'Maya Patel', '540-101-2002', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'seller', '2026-03-01 09:05:00'),
+(3, 'jordan.lee@vt.edu', 'Jordan Lee', '540-101-2003', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'seller', '2026-03-01 09:10:00'),
+(4, 'sophia.nguyen@vt.edu', 'Sophia Nguyen', '540-101-2004', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'seller', '2026-03-01 09:15:00'),
+(5, 'ethan.brooks@vt.edu', 'Ethan Brooks', '540-101-2005', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'seller', '2026-03-01 09:20:00'),
+(6, 'olivia.turner@vt.edu', 'Olivia Turner', '540-101-2006', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'seller', '2026-03-01 09:25:00'),
+(7, 'liam.hall@vt.edu', 'Liam Hall', '540-101-2007', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'seller', '2026-03-01 09:30:00'),
+(8, 'ava.king@vt.edu', 'Ava King', '540-101-2008', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'seller', '2026-03-01 09:35:00'),
+(9, 'noah.rivera@vt.edu', 'Noah Rivera', '540-101-2009', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'seller', '2026-03-01 09:40:00'),
+(10, 'emma.ward@vt.edu', 'Emma Ward', '540-101-2010', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'seller', '2026-03-01 09:45:00'),
+(11, 'william.foster@vt.edu', 'William Foster', '540-101-2011', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'seller', '2026-03-01 09:50:00'),
+(12, 'grace.hughes@vt.edu', 'Grace Hughes', '540-101-2012', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'seller', '2026-03-01 09:55:00'),
+(13, 'daniel.price@vt.edu', 'Daniel Price', '540-101-2013', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'buyer', '2026-03-01 10:00:00'),
+(14, 'chloe.bennett@vt.edu', 'Chloe Bennett', '540-101-2014', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'buyer', '2026-03-01 10:05:00'),
+(15, 'henry.coleman@vt.edu', 'Henry Coleman', '540-101-2015', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'buyer', '2026-03-01 10:10:00'),
+(16, 'ella.bailey@vt.edu', 'Ella Bailey', '540-101-2016', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'buyer', '2026-03-01 10:15:00'),
+(17, 'jack.morris@vt.edu', 'Jack Morris', '540-101-2017', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'buyer', '2026-03-01 10:20:00'),
+(18, 'nora.reed@vt.edu', 'Nora Reed', '540-101-2018', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'buyer', '2026-03-01 10:25:00'),
+(19, 'admin.one@vt.edu', 'Morgan Admin', '540-101-2019', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'admin', '2026-03-01 10:30:00'),
+(20, 'admin.two@vt.edu', 'Taylor Admin', '540-101-2020', 'pbkdf2_sha256$390000$BpPNJCR31ER1fD1dAPJYQg$w0uknf0Mjo-jE82asFdhXehlGw1e3YYogGR4qr-BkKg', 'admin', '2026-03-01 10:35:00');
 
-INSERT INTO `listing` (`listingID`, `sellerID`, `categoryID`, `courseID`, `title`, `description`, `condition`, `isAuction`, `price`, `createdAt`) VALUES
-(1, 1, 1, 1, 'CS 1114 Textbook Bundle', 'Includes textbook and lab notes for Intro to Software Design.', 'Good', 0, 45.00, '2026-03-10 08:00:00'),
-(2, 2, 2, NULL, 'iClicker 2 Remote', 'Fully working iClicker with battery included.', 'Very Good', 0, 20.00, '2026-03-10 08:10:00'),
-(3, 3, 3, NULL, 'Wooden Desk for Dorm', 'Compact desk that fits well in a dorm or apartment.', 'Good', 0, 70.00, '2026-03-10 08:20:00'),
-(4, 4, 4, NULL, 'TI-84 Plus Calculator', 'Graphing calculator approved for most math courses.', 'Excellent', 0, 65.00, '2026-03-10 08:30:00'),
-(5, 5, 1, 2, 'Calculus Early Transcendentals', 'Used in MATH 1225 with highlighted examples.', 'Fair', 0, 35.00, '2026-03-10 08:40:00'),
-(6, 6, 6, 4, 'Chemistry Goggles and Lab Coat', 'Clean set for CHEM lab requirements.', 'Good', 0, 25.00, '2026-03-10 08:50:00'),
-(7, 7, 15, NULL, '24-inch Dell Monitor', '1080p monitor with HDMI cable included.', 'Very Good', 0, 80.00, '2026-03-10 09:00:00'),
-(8, 8, 7, NULL, 'Campus Commuter Bike', 'Reliable bike with lock and front light.', 'Good', 0, 120.00, '2026-03-10 09:10:00'),
-(9, 9, 17, NULL, 'Twin XL Bedding Set', 'Includes comforter, sheets, and pillowcase.', 'Excellent', 0, 30.00, '2026-03-10 09:20:00'),
-(10, 10, 13, NULL, 'Plastic Storage Drawers', 'Three-drawer storage unit for dorm supplies.', 'Good', 0, 18.00, '2026-03-10 09:30:00'),
-(11, 11, 1, 3, 'Physics 2305 Textbook', 'Hardcover textbook in strong condition.', 'Very Good', 1, 40.00, '2026-03-10 09:40:00'),
-(12, 12, 8, NULL, 'LED Strip Lights', 'Color-changing strip lights for dorm rooms.', 'Excellent', 1, 15.00, '2026-03-10 09:50:00'),
-(13, 1, 9, NULL, 'Mini Rice Cooker', 'Great for simple meals in apartment housing.', 'Good', 1, 22.00, '2026-03-10 10:00:00'),
-(14, 2, 10, NULL, 'VT Hoodie Size M', 'Maroon hoodie with minimal wear.', 'Very Good', 1, 28.00, '2026-03-10 10:10:00'),
-(15, 3, 14, NULL, 'HP DeskJet Printer', 'Printer works well and includes extra ink.', 'Good', 1, 55.00, '2026-03-10 10:20:00'),
-(16, 4, 19, NULL, 'Architecture Drafting Kit', 'Includes ruler set, pencils, and templates.', 'Excellent', 1, 32.00, '2026-03-10 10:30:00'),
-(17, 5, 11, NULL, 'Football Student Section Ticket', 'Digital transfer for this weekend game.', 'Excellent', 1, 18.00, '2026-03-10 10:40:00'),
-(18, 6, 12, NULL, 'Nintendo Switch Pro Controller', 'Works perfectly and holds charge well.', 'Very Good', 1, 38.00, '2026-03-10 10:50:00'),
-(19, 7, 18, NULL, 'Yoga Mat and Resistance Bands', 'Good set for apartment workouts.', 'Good', 1, 20.00, '2026-03-10 11:00:00'),
-(20, 8, 20, NULL, 'Dorm Essentials Bundle', 'Mixed set with lamp, storage bins, and hangers.', 'Good', 1, 26.00, '2026-03-10 11:10:00');
+INSERT INTO `listing` (`listingID`, `sellerID`, `categoryID`, `courseID`, `title`, `description`, `condition`, `isAuction`, `price`, `status`, `createdAt`) VALUES
+(1, 1, 1, 1, 'CS 1114 Textbook Bundle', 'Includes textbook and lab notes for Intro to Software Design.', 'Good', 0, 45.00, 'sold', '2026-03-10 08:00:00'),
+(2, 2, 2, NULL, 'iClicker 2 Remote', 'Fully working iClicker with battery included.', 'Very Good', 0, 20.00, 'sold', '2026-03-10 08:10:00'),
+(3, 3, 3, NULL, 'Wooden Desk for Dorm', 'Compact desk that fits well in a dorm or apartment.', 'Good', 0, 70.00, 'sold', '2026-03-10 08:20:00'),
+(4, 4, 4, NULL, 'TI-84 Plus Calculator', 'Graphing calculator approved for most math courses.', 'Excellent', 0, 65.00, 'sold', '2026-03-10 08:30:00'),
+(5, 5, 1, 2, 'Calculus Early Transcendentals', 'Used in MATH 1225 with highlighted examples.', 'Fair', 0, 35.00, 'sold', '2026-03-10 08:40:00'),
+(6, 6, 6, 4, 'Chemistry Goggles and Lab Coat', 'Clean set for CHEM lab requirements.', 'Good', 0, 25.00, 'sold', '2026-03-10 08:50:00'),
+(7, 7, 15, NULL, '24-inch Dell Monitor', '1080p monitor with HDMI cable included.', 'Very Good', 0, 80.00, 'sold', '2026-03-10 09:00:00'),
+(8, 8, 7, NULL, 'Campus Commuter Bike', 'Reliable bike with lock and front light.', 'Good', 0, 120.00, 'sold', '2026-03-10 09:10:00'),
+(9, 9, 17, NULL, 'Twin XL Bedding Set', 'Includes comforter, sheets, and pillowcase.', 'Excellent', 0, 30.00, 'active', '2026-03-10 09:20:00'),
+(10, 10, 13, NULL, 'Plastic Storage Drawers', 'Three-drawer storage unit for dorm supplies.', 'Good', 0, 18.00, 'active', '2026-03-10 09:30:00'),
+(11, 11, 1, 3, 'Physics 2305 Textbook', 'Hardcover textbook in strong condition.', 'Very Good', 1, 40.00, 'closed', '2026-03-10 09:40:00'),
+(12, 12, 8, NULL, 'LED Strip Lights', 'Color-changing strip lights for dorm rooms.', 'Excellent', 1, 15.00, 'closed', '2026-03-10 09:50:00'),
+(13, 1, 9, NULL, 'Mini Rice Cooker', 'Great for simple meals in apartment housing.', 'Good', 1, 22.00, 'closed', '2026-03-10 10:00:00'),
+(14, 2, 10, NULL, 'VT Hoodie Size M', 'Maroon hoodie with minimal wear.', 'Very Good', 1, 28.00, 'closed', '2026-03-10 10:10:00'),
+(15, 3, 14, NULL, 'HP DeskJet Printer', 'Printer works well and includes extra ink.', 'Good', 1, 55.00, 'active', '2026-03-10 10:20:00'),
+(16, 4, 19, NULL, 'Architecture Drafting Kit', 'Includes ruler set, pencils, and templates.', 'Excellent', 1, 32.00, 'active', '2026-03-10 10:30:00'),
+(17, 5, 11, NULL, 'Football Student Section Ticket', 'Digital transfer for this weekend game.', 'Excellent', 1, 18.00, 'active', '2026-03-10 10:40:00'),
+(18, 6, 12, NULL, 'Nintendo Switch Pro Controller', 'Works perfectly and holds charge well.', 'Very Good', 1, 38.00, 'active', '2026-03-10 10:50:00'),
+(19, 7, 18, NULL, 'Yoga Mat and Resistance Bands', 'Good set for apartment workouts.', 'Good', 1, 20.00, 'active', '2026-03-10 11:00:00'),
+(20, 8, 20, NULL, 'Dorm Essentials Bundle', 'Mixed set with lamp, storage bins, and hangers.', 'Good', 1, 26.00, 'active', '2026-03-10 11:10:00');
 
 INSERT INTO `listingimage` (`imageID`, `listingID`, `imageURL`) VALUES
 (1, 1, 'https://example.com/images/listings/1.jpg'),
@@ -321,6 +322,7 @@ ALTER TABLE `course` AUTO_INCREMENT = 21;
 ALTER TABLE `category` AUTO_INCREMENT = 21;
 ALTER TABLE `user` AUTO_INCREMENT = 21;
 ALTER TABLE `listing` AUTO_INCREMENT = 21;
+ALTER TABLE `usersession` AUTO_INCREMENT = 1;
 ALTER TABLE `listingimage` AUTO_INCREMENT = 21;
 ALTER TABLE `conversation` AUTO_INCREMENT = 21;
 ALTER TABLE `message` AUTO_INCREMENT = 21;
