@@ -1,0 +1,408 @@
+.page-shell {
+  padding: 32px 24px 48px;
+}
+
+.hero-panel,
+.content-grid,
+.hero-stats,
+.filter-grid,
+.report-grid,
+.card-list {
+  display: grid;
+  gap: 24px;
+}
+
+.hero-panel {
+  grid-template-columns: 1.8fr 1fr;
+  margin-bottom: 24px;
+  align-items: start;
+}
+
+.content-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.full-span {
+  grid-column: 1 / -1;
+}
+
+.panel,
+.status-card,
+.market-card,
+.report-card,
+.mini-stat {
+  background: rgba(255, 250, 245, 0.96);
+  border: 1px solid #d8c8b8;
+  border-radius: 20px;
+  box-shadow: 0 14px 32px rgba(61, 31, 10, 0.08);
+}
+
+.panel,
+.status-card {
+  padding: 24px;
+}
+
+.eyebrow,
+.section-kicker {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #8c3b1a;
+}
+
+.hero-copy,
+.helper-text,
+.status-detail,
+.card-description,
+.empty-state p,
+.report-card p,
+.image-chip span {
+  color: #6d5548;
+}
+
+.hero-copy {
+  max-width: 720px;
+  margin-bottom: 20px;
+}
+
+.hero-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.mini-stat,
+.report-card {
+  padding: 18px;
+}
+
+.mini-stat span,
+.report-card span {
+  display: block;
+  font-size: 0.9rem;
+  color: #7b5a49;
+}
+
+.mini-stat strong,
+.report-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.25rem;
+  color: #2d160c;
+}
+
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.tab-row,
+.status-actions,
+.card-actions,
+.market-badges,
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tab-button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+  background: #f2e7dc;
+  color: #57311f;
+  font-weight: 700;
+}
+
+.tab-button.active {
+  background: #8c3b1a;
+  color: #fffaf5;
+}
+
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 11px 18px;
+  cursor: pointer;
+  background: #8c3b1a;
+  color: #fffaf5;
+  font-weight: 700;
+  font: inherit;
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.ghost-button {
+  background: #f2e7dc;
+  color: #57311f;
+}
+
+.danger-button {
+  background: #a53d3d;
+}
+
+.small-button {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.text-link {
+  background: transparent;
+  color: #8c3b1a;
+  padding: 0;
+  border-radius: 0;
+  font-weight: 700;
+  text-align: left;
+}
+
+.stack-form,
+.listing-form {
+  display: grid;
+  gap: 16px;
+}
+
+.listing-form {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.listing-form .full-width {
+  grid-column: 1 / -1;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+  color: #3f2719;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #cdb7a4;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #fffdfb;
+  color: #2f1b11;
+  font: inherit;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-row input {
+  width: auto;
+  margin: 0;
+}
+
+.filter-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 24px;
+}
+
+.report-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.message-banner {
+  margin-top: 8px;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-weight: 600;
+}
+
+.message-banner.success {
+  background: #eef7ef;
+  border: 1px solid #9ac8a5;
+  color: #215c2f;
+}
+
+.message-banner.error {
+  background: #fff0f0;
+  border: 1px solid #d89c9c;
+  color: #8d2d2d;
+}
+
+.card-list {
+  grid-template-columns: 1fr;
+}
+
+.market-card {
+  padding: 20px;
+}
+
+.market-card-main {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.market-card h3 {
+  margin: 12px 0 8px;
+  color: #2d160c;
+}
+
+.market-card-content {
+  min-width: 0;
+}
+
+.market-image-shell {
+  width: 100%;
+}
+
+.market-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid #eadbcf;
+  background: #fffdfb;
+}
+
+.market-image.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 160px;
+  border-radius: 16px;
+  border: 1px dashed #d4bfaf;
+  color: #7b5a49;
+  background: #fffdfb;
+  font-weight: 700;
+}
+
+.card-description {
+  margin: 0 0 14px;
+  max-width: 800px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.tag.auction {
+  background: #f7e2d4;
+  color: #8c3b1a;
+}
+
+.tag.fixed {
+  background: #ede7ff;
+  color: #5b3ca4;
+}
+
+.tag.neutral {
+  background: #f4eee8;
+  color: #654838;
+}
+
+.card-meta {
+  display: grid;
+  gap: 6px;
+  color: #4a3528;
+  font-size: 0.95rem;
+}
+
+.empty-state {
+  padding: 28px;
+  border: 1px dashed #d4bfaf;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.empty-state h3 {
+  margin: 0 0 8px;
+  color: #2d160c;
+}
+
+.account-box {
+  display: grid;
+  gap: 14px;
+}
+
+.account-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 16px;
+  border: 1px solid #eadbcf;
+  border-radius: 14px;
+  background: #fffdfb;
+}
+
+.image-entry-row {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+}
+
+.image-url-field {
+  flex: 1;
+}
+
+.image-chip-list {
+  display: grid;
+  gap: 12px;
+}
+
+.image-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  border: 1px solid #eadbcf;
+  border-radius: 14px;
+  background: #fffdfb;
+}
+
+@media (max-width: 1100px) {
+  .hero-panel,
+  .content-grid,
+  .filter-grid,
+  .report-grid,
+  .hero-stats,
+  .listing-form,
+  .market-card-main {
+    grid-template-columns: 1fr;
+  }
+
+  .page-shell {
+    padding: 20px 14px 32px;
+  }
+
+  .panel,
+  .status-card {
+    padding: 18px;
+  }
+
+  .panel-heading,
+  .account-row,
+  .image-entry-row,
+  .image-chip {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
