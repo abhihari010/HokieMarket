@@ -156,6 +156,14 @@ def delete_listing(listing_id: int, current_user: dict[str, Any] = Depends(get_c
             raise HTTPException(status_code=404, detail="Listing not found.")
         ensure_listing_owner_or_admin(current_user, existing)
         with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM listingimage WHERE listingID = %s", (listing_id,))
+            cursor.execute("SELECT auctionID FROM auction WHERE listingID = %s", (listing_id,))
+            auction_row = cursor.fetchone()
+            if auction_row:
+                cursor.execute("SELECT COUNT(*) FROM bid WHERE auctionID = %s", (auction_row[0],))
+                if cursor.fetchone()[0] > 0:
+                    raise HTTPException(status_code=409, detail="Auction listings with bids cannot be deleted.")
+                cursor.execute("DELETE FROM auction WHERE listingID = %s", (listing_id,))
             cursor.execute("DELETE FROM listing WHERE listingID = %s", (listing_id,))
         connection.commit()
         return {"status": "deleted", "listingID": listing_id, "title": existing["title"]}

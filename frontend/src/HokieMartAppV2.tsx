@@ -1,4 +1,5 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { FormEvent } from "react";
 import axios from "axios";
 import type { AxiosRequestConfig } from "axios";
 import "./HokieMartAppV2.css";
@@ -121,6 +122,15 @@ interface TopCategoryReport {
   listingCount: number;
   soldCount: number;
   averageSalePrice: number;
+}
+
+interface SellerPerformanceReport {
+  sellerID: number;
+  sellerName: string;
+  listingCount: number;
+  closedListingCount: number;
+  averageRating: number;
+  grossSales: number;
 }
 
 const emptyLoginForm: LoginFormState = {
@@ -261,6 +271,9 @@ function HokieMartAppV2() {
   const [categories, setCategories] = useState<CategoryOption[]>([]);
   const [courses, setCourses] = useState<CourseOption[]>([]);
   const [topCategories, setTopCategories] = useState<TopCategoryReport[]>([]);
+  const [sellerPerformance, setSellerPerformance] = useState<
+    SellerPerformanceReport[]
+  >([]);
 
   const [listingForm, setListingForm] =
     useState<ListingFormState>(emptyListingForm);
@@ -365,6 +378,23 @@ function HokieMartAppV2() {
     }
   };
 
+  const loadSellerPerformance = async (authToken: string) => {
+    if (!authToken) {
+      setSellerPerformance([]);
+      return;
+    }
+
+    try {
+      const response = await api.get<SellerPerformanceReport[]>(
+        "/api/analytics/seller-performance",
+        authConfig(authToken),
+      );
+      setSellerPerformance(response.data);
+    } catch {
+      setSellerPerformance([]);
+    }
+  };
+
   const bootstrap = async (authToken: string) => {
     setIsPageLoading(true);
 
@@ -377,6 +407,7 @@ function HokieMartAppV2() {
           await Promise.all([
             loadProtectedOptions(authToken),
             loadTopCategories(authToken),
+            loadSellerPerformance(authToken),
           ]);
         } catch {
           clearStoredToken();
@@ -385,12 +416,14 @@ function HokieMartAppV2() {
           setCategories([]);
           setCourses([]);
           setTopCategories([]);
+          setSellerPerformance([]);
         }
       } else {
         setSessionUser(null);
         setCategories([]);
         setCourses([]);
         setTopCategories([]);
+        setSellerPerformance([]);
       }
     } catch (error) {
       setPageError(
@@ -476,11 +509,12 @@ function HokieMartAppV2() {
     setPageError("");
     setAuthScreen("login");
     setActiveTab("browse");
-    await Promise.all([
-      loadProtectedOptions(response.token).catch(() => undefined),
-      loadTopCategories(response.token).catch(() => undefined),
-      loadPublicListings(),
-    ]);
+      await Promise.all([
+        loadProtectedOptions(response.token).catch(() => undefined),
+        loadTopCategories(response.token).catch(() => undefined),
+        loadSellerPerformance(response.token).catch(() => undefined),
+        loadPublicListings(),
+      ]);
   };
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
@@ -554,6 +588,7 @@ function HokieMartAppV2() {
       setCategories([]);
       setCourses([]);
       setTopCategories([]);
+      setSellerPerformance([]);
       setActiveTab("browse");
       resetListingForm();
       setPageMessage("Signed out.");
@@ -594,6 +629,7 @@ function HokieMartAppV2() {
       setCategories([]);
       setCourses([]);
       setTopCategories([]);
+      setSellerPerformance([]);
       setActiveTab("browse");
       setPageMessage("Password updated. Please log in again.");
     } catch (error) {
@@ -792,6 +828,7 @@ function HokieMartAppV2() {
       await Promise.all([
         loadPublicListings(),
         loadTopCategories(token).catch(() => undefined),
+        loadSellerPerformance(token).catch(() => undefined),
       ]);
     } catch (error) {
       setPageError(
@@ -1822,6 +1859,40 @@ function HokieMartAppV2() {
                       <p>Listings: {item.listingCount}</p>
                       <p>Sold: {item.soldCount}</p>
                       <p>Avg Sale Price: {money(item.averageSalePrice)}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+
+            <section className="panel">
+              <div className="panel-heading">
+                <div>
+                  <p className="section-kicker">Reports</p>
+                  <h2>Seller Performance</h2>
+                </div>
+              </div>
+
+              {!isAdmin ? (
+                <div className="empty-state">
+                  <h3>Admin access required</h3>
+                  <p>Only admins should use this reporting area.</p>
+                </div>
+              ) : sellerPerformance.length === 0 ? (
+                <div className="empty-state">
+                  <h3>No seller analytics yet</h3>
+                  <p>Seller performance appears here once listing activity exists.</p>
+                </div>
+              ) : (
+                <div className="report-grid">
+                  {sellerPerformance.map((item) => (
+                    <div className="report-card" key={item.sellerID}>
+                      <span>Seller</span>
+                      <strong>{item.sellerName}</strong>
+                      <p>Listings: {item.listingCount}</p>
+                      <p>Closed: {item.closedListingCount}</p>
+                      <p>Avg Rating: {item.averageRating.toFixed(2)}</p>
+                      <p>Gross Sales: {money(item.grossSales)}</p>
                     </div>
                   ))}
                 </div>

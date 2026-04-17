@@ -8,7 +8,7 @@ Hokie Market is a full-stack marketplace project with a FastAPI backend, a React
 
 ## Repository Link
 
-Add your public GitHub or GitLab repository link here.
+https://github.com/abhihari010/HokieMarket
 
 ## Repository Structure
 
@@ -96,10 +96,12 @@ pip install -r backend/requirements.txt
 python db/run_migration.py
 ```
 
+If you already created a local database during Phase 5, rerun this migration step after pulling Phase 6 changes. The Phase 6 schema adds `user.passwordHash`, `listing.status`, and the `usersession` table, so older local databases will not match the current backend until they are rebuilt.
+
 5. Start the backend:
 
 ```powershell
-uvicorn backend.main:app --reload
+python -m uvicorn backend.main:app --reload
 ```
 
 Seeded accounts use the shared demo password `HokieMarket123!`.
@@ -120,7 +122,7 @@ npm install
 npm run dev
 ```
 
-The frontend expects the FastAPI backend to already be running.
+The frontend expects the FastAPI backend to already be running. On Windows PowerShell, use `npm.cmd` instead of `npm` if script execution is restricted.
 
 ## Database Notes
 
@@ -131,7 +133,7 @@ The frontend expects the FastAPI backend to already be running.
 
 ## Current Limitations
 
-- The frontend still needs to be updated to use token-based authentication and the newer Phase 6 endpoints.
+- Core auth flows, admin user creation, analytics reads, and authenticated listing CRUD were smoke-tested locally against the current schema, but full manual UI regression testing is still recommended on each teammate machine.
 - Auction closing is implemented manually through the API and is not yet driven by a scheduled background job.
 - Some advanced marketplace behaviors, such as re-opening auction outcomes after a cancelled winning transaction, are intentionally simplified for the course project.
 - Deleting seeded listings may still fail if related rows exist in tables like `conversation`, `bid`, `transaction`, `report`, or `review`.

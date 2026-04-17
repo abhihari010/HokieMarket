@@ -331,4 +331,19 @@ The refactored backend modules were checked with Python compilation:
 python -m py_compile backend\main.py backend\core.py backend\schemas.py backend\auth_utils.py backend\domain.py backend\routes\auth_routes.py backend\routes\listing_routes.py backend\routes\market_routes.py backend\routes\analytics_routes.py
 ```
 
-This verifies syntax and import structure. End-to-end API testing against the local MySQL instance still needs to be run on the configured environment.
+This verifies syntax and import structure.
+
+Additional local smoke testing was run against the configured MySQL instance after rebuilding the schema with `python db/run_migration.py`. The smoke checks verified:
+
+- `GET /api/test-db`
+- `POST /api/auth/login`
+- `GET /api/me`
+- `GET /api/analytics/top-categories`
+- `GET /api/analytics/seller-performance`
+- `POST /api/admin/users`
+- `POST /api/auth/signup`
+- `POST /api/auth/change-password`
+- `POST /api/auth/logout`
+- authenticated `POST`, `PUT`, and `DELETE` listing flows
+
+These checks confirmed that the backend can connect to the Phase 6 schema and that the core rubric flows are working on the tested local environment. Full manual frontend regression testing is still recommended on each teammate machine.
