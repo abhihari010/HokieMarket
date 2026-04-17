@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS `review`;
 DROP TABLE IF EXISTS `transaction`;
 DROP TABLE IF EXISTS `auction`;
 DROP TABLE IF EXISTS `conversation`;
+DROP TABLE IF EXISTS `usersession`;
 DROP TABLE IF EXISTS `listingimage`;
 DROP TABLE IF EXISTS `listing`;
 DROP TABLE IF EXISTS `course`;
@@ -55,6 +56,7 @@ CREATE TABLE `user` (
     `email` VARCHAR(255) NOT NULL,
     `name` VARCHAR(255) NOT NULL,
     `phoneNo` VARCHAR(32) NOT NULL,
+    `passwordHash` VARCHAR(255) NOT NULL,
     `role` ENUM('buyer', 'seller', 'admin') NOT NULL,
     `createdAt` DATETIME NOT NULL,
     PRIMARY KEY (`userID`),
@@ -71,6 +73,7 @@ CREATE TABLE `listing` (
     `condition` VARCHAR(100) NOT NULL,
     `isAuction` TINYINT(1) NOT NULL DEFAULT 0,
     `price` DECIMAL(10, 2) NOT NULL,
+    `status` ENUM('active', 'sold', 'closed') NOT NULL DEFAULT 'active',
     `createdAt` DATETIME NOT NULL,
     PRIMARY KEY (`listingID`),
     CONSTRAINT `chk_listing_price`
@@ -81,6 +84,19 @@ CREATE TABLE `listing` (
         FOREIGN KEY (`categoryID`) REFERENCES `category` (`categoryID`),
     CONSTRAINT `fk_listing_course`
         FOREIGN KEY (`courseID`) REFERENCES `course` (`courseID`)
+);
+
+CREATE TABLE `usersession` (
+    `sessionID` INT NOT NULL AUTO_INCREMENT,
+    `userID` INT NOT NULL,
+    `tokenHash` VARCHAR(255) NOT NULL,
+    `createdAt` DATETIME NOT NULL,
+    `expiresAt` DATETIME NOT NULL,
+    `revokedAt` DATETIME NULL,
+    PRIMARY KEY (`sessionID`),
+    UNIQUE KEY `uq_usersession_token_hash` (`tokenHash`),
+    CONSTRAINT `fk_usersession_user`
+        FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
 );
 
 CREATE TABLE `listingimage` (
@@ -97,6 +113,7 @@ CREATE TABLE `conversation` (
     `listingID` INT NOT NULL,
     `buyerID` INT NOT NULL,
     PRIMARY KEY (`conversationID`),
+    UNIQUE KEY `uq_conversation_listing_buyer` (`listingID`, `buyerID`),
     CONSTRAINT `fk_conversation_listing`
         FOREIGN KEY (`listingID`) REFERENCES `listing` (`listingID`),
     CONSTRAINT `fk_conversation_buyer`
@@ -150,6 +167,7 @@ CREATE TABLE `transaction` (
     `status` VARCHAR(64) NOT NULL,
     `completedAt` DATETIME NULL,
     PRIMARY KEY (`transactionID`),
+    UNIQUE KEY `uq_transaction_listing` (`listingID`),
     CONSTRAINT `fk_transaction_listing`
         FOREIGN KEY (`listingID`) REFERENCES `listing` (`listingID`),
     CONSTRAINT `fk_transaction_buyer`
