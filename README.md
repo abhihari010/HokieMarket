@@ -1,10 +1,6 @@
 # Hokie Market
 
-The Hokie Market system is a web-based marketplace designed to allow college students to buy and sell items such as textbooks, electronics,
-furniture, and other campus-related goods within their university community. The application provides a structured environment where users
-can create listings, browse available items, communicate with other users, participate in auctions, and complete transactions.
-
-Hokie Market is a full-stack marketplace project with a FastAPI backend, a React + Vite frontend, and MySQL schema/seed scripts for local setup.
+Hokie Market is a full-stack student marketplace for buying and selling textbooks, electronics, furniture, tickets, dorm supplies, and other campus items. The project uses a FastAPI backend, a React + Vite frontend, and MySQL schema and seed scripts for local development.
 
 ## Repository Link
 
@@ -28,10 +24,48 @@ hokiemarket/
 - Backend: FastAPI, Python, MySQL
 - Frontend: React, TypeScript, Vite
 - Database setup: SQL schema + seed scripts in `db/`
+- Local image uploads: FastAPI static file serving from `backend/uploads/`
+
+## Current Product Scope
+
+### Accounts and Roles
+
+- Normal users are `member` accounts
+- Elevated moderation and reporting access belongs to `admin` accounts
+- Members can both buy and sell with the same account
+
+### Marketplace Features
+
+- Account signup, login, logout, and password change
+- Admin user creation
+- Listing creation, editing, deletion, and filtering
+- Fixed-price purchases
+- Auction listing creation and bidding
+- Manual auction closing through the API
+- Buyer and seller messaging
+- Transaction tracking and status updates
+- Listing reviews after completed transactions
+- Listing reports and admin report moderation
+- Marketplace analytics for top categories and seller performance
+- Local image upload support for listings
+
+### Frontend Coverage
+
+The active frontend entry point is [frontend/src/main.tsx](./frontend/src/main.tsx), which renders `HokieMartAppV2`.
+
+The current UI supports:
+
+- Public browsing and filtering
+- Member authentication
+- Listing management
+- Auction bids
+- Fixed-price purchases
+- Messaging
+- Transactions and review submission
+- Admin analytics and report moderation
+- Local file selection and upload for listing images
 
 ## Backend API Scope
-
-The Phase 6 backend now supports authenticated marketplace workflows across users, listings, auctions, transactions, messaging, reviews, reports, and analytics.
 
 ### Authentication and Users
 
@@ -42,7 +76,7 @@ The Phase 6 backend now supports authenticated marketplace workflows across user
 - `GET /api/me`
 - `POST /api/admin/users`
 
-### Listings
+### Listings and Uploads
 
 - `GET /api/test-db`
 - `GET /api/listing-form-options`
@@ -51,6 +85,7 @@ The Phase 6 backend now supports authenticated marketplace workflows across user
 - `POST /api/listings`
 - `PUT /api/listings/{listing_id}`
 - `DELETE /api/listings/{listing_id}`
+- `POST /api/uploads/listing-images`
 
 ### Auctions and Transactions
 
@@ -83,22 +118,20 @@ The Phase 6 backend now supports authenticated marketplace workflows across user
 ### 1. Backend
 
 1. Create `backend/.env` from `backend/.env.example`.
-2. Install Python dependencies:
+2. Install backend dependencies:
 
 ```powershell
 pip install -r backend/requirements.txt
 ```
 
-3. Make sure your local MySQL server is running and reachable with the credentials in `backend/.env`.
-4. Build the schema and seed/reset the tables:
+3. Make sure your local MySQL server is running and matches the credentials in `backend/.env`.
+4. Build or rebuild the schema and seed data:
 
 ```powershell
 python db/run_migration.py
 ```
 
-If you already created a local database during Phase 5, rerun this migration step after pulling Phase 6 changes. The Phase 6 schema adds `user.passwordHash`, `listing.status`, and the `usersession` table, so older local databases will not match the current backend until they are rebuilt.
-
-5. Start the backend:
+5. Start the backend from the repository root:
 
 ```powershell
 python -m uvicorn backend.main:app --reload
@@ -122,18 +155,47 @@ npm install
 npm run dev
 ```
 
-The frontend expects the FastAPI backend to already be running. On Windows PowerShell, use `npm.cmd` instead of `npm` if script execution is restricted.
+The frontend expects the backend to already be running. On Windows PowerShell, use `npm.cmd` instead of `npm` if script execution is restricted.
+
+## Local Image Uploads
+
+Listing images are currently stored on disk for local development.
+
+- Uploaded files are saved under `backend/uploads/listings/`
+- FastAPI serves them from `/uploads/...`
+- The database stores the resulting file URLs in `listingimage`
+
+This is intended as a simple local-first implementation. It can later be replaced with object storage such as S3, R2, or Supabase Storage without changing the listing image concept in the UI.
 
 ## Database Notes
 
 `db/run_migration.py` applies the SQL files in `db/` in filename order.
 
-- `db/000_phase5_schema.sql` creates the database objects from scratch.
-- `db/001_phase5_seed.sql` resets and repopulates those tables with demo data.
+- `db/000_phase5_schema.sql` creates the database objects from scratch
+- `db/001_phase5_seed.sql` resets and repopulates those tables with demo data
+
+The current schema uses only two user roles:
+
+- `member`
+- `admin`
+
+If you pulled recent changes, rerun the migration so your local enum values and seed data match the current application behavior.
+
+## Verification
+
+The current codebase was checked with:
+
+```powershell
+python -m py_compile backend\main.py backend\core.py backend\schemas.py backend\auth_utils.py backend\domain.py backend\routes\auth_routes.py backend\routes\listing_routes.py backend\routes\market_routes.py backend\routes\analytics_routes.py
+cd frontend
+.\node_modules\.bin\tsc.cmd -b
+npm run lint
+```
 
 ## Current Limitations
 
-- Core auth flows, admin user creation, analytics reads, and authenticated listing CRUD were smoke-tested locally against the current schema, but full manual UI regression testing is still recommended on each teammate machine.
-- Auction closing is implemented manually through the API and is not yet driven by a scheduled background job.
-- Some advanced marketplace behaviors, such as re-opening auction outcomes after a cancelled winning transaction, are intentionally simplified for the course project.
-- Deleting seeded listings may still fail if related rows exist in tables like `conversation`, `bid`, `transaction`, `report`, or `review`.
+- Local image uploads are meant for development and are not a durable production storage solution
+- Auction closing is still manual and not driven by a scheduled background task
+- Some marketplace rules remain intentionally simplified for the course project
+- Deleting seeded listings may still fail when related rows exist in `conversation`, `bid`, `transaction`, `report`, or `review`
+- Full manual end-to-end testing is still recommended on each teammate machine
