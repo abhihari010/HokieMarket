@@ -75,9 +75,8 @@ def validate_auction_payload(payload: Any) -> None:
 def choose_listing_owner(user: dict[str, Any], payload: Any) -> int:
     if user["role"] == "admin":
         return payload.sellerID or user["userID"]
-    require_role(user, {"seller"})
     if payload.sellerID and payload.sellerID != user["userID"]:
-        raise HTTPException(status_code=403, detail="Sellers can only create listings under their own account.")
+        raise HTTPException(status_code=403, detail="You can only create listings under your own account.")
     return user["userID"]
 
 

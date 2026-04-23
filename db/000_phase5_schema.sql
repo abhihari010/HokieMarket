@@ -57,7 +57,7 @@ CREATE TABLE `user` (
     `name` VARCHAR(255) NOT NULL,
     `phoneNo` VARCHAR(32) NOT NULL,
     `passwordHash` VARCHAR(255) NOT NULL,
-    `role` ENUM('buyer', 'seller', 'admin') NOT NULL,
+    `role` ENUM('member', 'admin') NOT NULL,
     `createdAt` DATETIME NOT NULL,
     PRIMARY KEY (`userID`),
     UNIQUE KEY `uq_user_email` (`email`)

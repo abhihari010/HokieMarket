@@ -1,6 +1,9 @@
+import imghdr
+from pathlib import Path
 from typing import Any
+from uuid import uuid4
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, File, HTTPException, Query, Request, UploadFile
 from mysql.connector import Error
 
 from backend.auth_utils import get_current_user
@@ -9,6 +12,9 @@ from backend.domain import choose_listing_owner, ensure_listing_owner_or_admin, 
 from backend.schemas import ListingPayload
 
 router = APIRouter()
+MAX_IMAGE_BYTES = 5 * 1024 * 1024
+UPLOAD_ROOT = Path(__file__).resolve().parents[1] / "uploads" / "listings"
+UPLOAD_ROOT.mkdir(parents=True, exist_ok=True)
 
 
 @router.get("/api/listing-form-options")
@@ -17,7 +23,7 @@ def get_listing_form_options(current_user: dict[str, Any] = Depends(get_current_
     connection = open_connection()
     try:
         with connection.cursor(dictionary=True) as cursor:
-            cursor.execute("SELECT userID, name, email FROM `user` WHERE role IN ('seller', 'admin') ORDER BY name")
+            cursor.execute("SELECT userID, name, email FROM `user` WHERE role IN ('member', 'admin') ORDER BY name")
             sellers = cursor.fetchall()
             cursor.execute("SELECT categoryID, categoryName FROM category ORDER BY categoryName")
             categories = cursor.fetchall()
@@ -28,6 +34,39 @@ def get_listing_form_options(current_user: dict[str, Any] = Depends(get_current_
         return {"sellers": sellers, "categories": categories, "courses": courses}
     finally:
         connection.close()
+
+
+@router.post("/api/uploads/listing-images")
+async def upload_listing_images(request: Request, files: list[UploadFile] = File(...), current_user: dict[str, Any] = Depends(get_current_user)) -> dict[str, list[str]]:
+    _ = current_user
+    if not files:
+        raise HTTPException(status_code=400, detail="At least one image file is required.")
+
+    saved_urls: list[str] = []
+
+    for file in files:
+        if not file.content_type or not file.content_type.startswith("image/"):
+            raise HTTPException(status_code=400, detail="Only image uploads are allowed.")
+
+        content = await file.read()
+        if not content:
+            raise HTTPException(status_code=400, detail="Uploaded image files cannot be empty.")
+        if len(content) > MAX_IMAGE_BYTES:
+            raise HTTPException(status_code=400, detail="Images must be 5 MB or smaller.")
+
+        detected_format = imghdr.what(None, content)
+        if detected_format not in {"jpeg", "png", "gif", "webp"}:
+            raise HTTPException(status_code=400, detail="Supported image formats are JPEG, PNG, GIF, and WebP.")
+
+        extension = "jpg" if detected_format == "jpeg" else detected_format
+        filename = f"{uuid4().hex}.{extension}"
+        destination = UPLOAD_ROOT / filename
+        destination.write_bytes(content)
+
+        relative_path = f"/uploads/listings/{filename}"
+        saved_urls.append(f"{str(request.base_url).rstrip('/')}{relative_path}")
+
+    return {"imageUrls": saved_urls}
 
 
 @router.get("/api/listings")

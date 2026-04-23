@@ -8,7 +8,7 @@ class SignupPayload(BaseModel):
     name: str = Field(..., min_length=1, max_length=255)
     phoneNo: str = Field(..., min_length=7, max_length=32)
     password: str = Field(..., min_length=8, max_length=128)
-    role: str = Field(..., pattern="^(buyer|seller)$")
+    role: str = Field(..., pattern="^(member)$")
 
 
 class LoginPayload(BaseModel):
@@ -26,7 +26,7 @@ class AdminCreateUserPayload(BaseModel):
     name: str = Field(..., min_length=1, max_length=255)
     phoneNo: str = Field(..., min_length=7, max_length=32)
     password: str = Field(..., min_length=8, max_length=128)
-    role: str = Field(..., pattern="^(buyer|seller|admin)$")
+    role: str = Field(..., pattern="^(member|admin)$")
 
 
 class ListingPayload(BaseModel):
