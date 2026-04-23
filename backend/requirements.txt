@@ -4,3 +4,4 @@ mysql-connector-python
 python-dotenv
 email-validator
 python-multipart
+pytest
