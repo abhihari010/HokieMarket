@@ -198,4 +198,3 @@ npm run lint
 - Auction closing is still manual and not driven by a scheduled background task
 - Some marketplace rules remain intentionally simplified for the course project
 - Deleting seeded listings may still fail when related rows exist in `conversation`, `bid`, `transaction`, `report`, or `review`
-- Full manual end-to-end testing is still recommended on each teammate machine
