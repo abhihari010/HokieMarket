@@ -378,6 +378,129 @@ textarea {
   background: #fffdfb;
 }
 
+.image-chip-preview {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.image-chip-preview img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #eadbcf;
+  background: #fffdfb;
+}
+
+.image-chip-preview span {
+  overflow-wrap: anywhere;
+}
+
+.action-stack,
+.stack-list,
+.transaction-meta,
+.message-thread {
+  display: grid;
+  gap: 12px;
+}
+
+.inline-form,
+.conversation-layout {
+  display: grid;
+  gap: 12px;
+}
+
+.inline-form {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+}
+
+.nested-card,
+.sub-card,
+.conversation-button {
+  border: 1px solid #eadbcf;
+  border-radius: 16px;
+  background: #fffdfb;
+}
+
+.nested-card,
+.sub-card {
+  padding: 16px;
+}
+
+.sub-card p {
+  margin: 0;
+}
+
+.transaction-meta {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  color: #4a3528;
+  font-size: 0.95rem;
+}
+
+.conversation-layout {
+  grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+  align-items: start;
+}
+
+.conversation-button {
+  width: 100%;
+  padding: 16px;
+  text-align: left;
+  color: #3f2719;
+  background: #fffdfb;
+}
+
+.conversation-button.active {
+  border-color: #8c3b1a;
+  box-shadow: inset 0 0 0 1px #8c3b1a;
+}
+
+.conversation-button strong,
+.conversation-button span {
+  display: block;
+}
+
+.conversation-button span {
+  margin-top: 6px;
+  color: #6d5548;
+}
+
+.message-thread {
+  max-height: 420px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+}
+
+.message-bubble {
+  max-width: 75%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #f4eee8;
+  color: #3f2719;
+}
+
+.message-bubble.mine {
+  margin-left: auto;
+  background: #f7e2d4;
+}
+
+.message-bubble strong,
+.message-bubble span {
+  display: block;
+}
+
+.message-bubble p {
+  margin: 8px 0;
+}
+
+.message-bubble span {
+  font-size: 0.85rem;
+  color: #6d5548;
+}
+
 @media (max-width: 1100px) {
   .hero-panel,
   .content-grid,
@@ -385,7 +508,10 @@ textarea {
   .report-grid,
   .hero-stats,
   .listing-form,
-  .market-card-main {
+  .market-card-main,
+  .conversation-layout,
+  .transaction-meta,
+  .inline-form {
     grid-template-columns: 1fr;
   }
 

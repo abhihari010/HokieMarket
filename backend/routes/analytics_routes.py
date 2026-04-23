@@ -53,7 +53,7 @@ def get_seller_performance(current_user: dict[str, Any] = Depends(get_current_us
                 LEFT JOIN listing AS l ON l.sellerID = u.userID
                 LEFT JOIN review AS r ON r.listingID = l.listingID
                 LEFT JOIN `transaction` AS t ON t.listingID = l.listingID
-                WHERE u.role IN ('seller', 'admin')
+                WHERE u.role IN ('member', 'admin')
                 GROUP BY u.userID, u.name
                 HAVING COUNT(l.listingID) > 0
                 ORDER BY grossSales DESC, averageRating DESC, sellerName ASC

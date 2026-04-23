@@ -3,6 +3,7 @@ __pycache__/
 venv/
 .env
 *.pyc
+backend/uploads/
 
 # React / Frontend
 node_modules/
